@@ -1,7 +1,7 @@
 services:
-  web:
+  api:
     build: ./api
-    container_name: bghub-web
+    container_name: bghub-api
     env_file:
       - ./api/.env
     ports:
@@ -12,6 +12,18 @@ services:
       db:
         condition: service_healthy
     command: python manage.py runserver 0.0.0.0:8000
+
+  web:
+    build: ./web
+    container_name: bghub-web
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    command: npm run dev -- --host 0.0.0.0
+    stdin_open: true
+    tty: true
 
   db:
     image: postgres:16

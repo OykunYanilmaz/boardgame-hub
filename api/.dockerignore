@@ -8,9 +8,12 @@ __pycache__/
 venv/
 env/
 
-# Pipenv
+# Pipenv (optional - if using requirements.txt)
 Pipfile
 Pipfile.lock
+
+# Requirements MUST be included
+!requirements.txt
 
 # Environment variables
 .env
@@ -31,16 +34,17 @@ node_modules/
 
 # Django
 db.sqlite3
+*.sqlite3
 staticfiles/
 media/
 
-# Tests and Tests cache
+# Tests and Tests cache (optional - can remove if needed in CI)
 .pytest_cache/
 **/tests/
 pytest.ini
 .ruff_cache/
 .coverage
 
-# Docker
+# Docker (optional)
 #Dockerfile
 #docker-compose.yml

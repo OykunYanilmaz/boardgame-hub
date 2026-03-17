@@ -1,3 +1,6 @@
+### .gitignore file in Root Directory
+
+```git
 ############################
 # 🐍 Django / Python
 ############################
@@ -110,3 +113,4 @@ Thumbs.db
 *.iml
 *.swp
 *~
+```
