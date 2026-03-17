@@ -8,6 +8,8 @@ django = "*"
 psycopg = {extras = ["binary"], version = "*"}
 
 [dev-packages]
+ruff = "*"
+black = "*"
 
 [requires]
 python_version = "3.12"
