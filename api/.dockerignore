@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Pipenv
+Pipfile
+Pipfile.lock
+
+# Environment variables
+.env
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Node
+node_modules/
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+
+# Tests and Tests cache
+.pytest_cache/
+**/tests/
+pytest.ini
+.ruff_cache/
+.coverage
+
+# Docker
+#Dockerfile
+#docker-compose.yml
