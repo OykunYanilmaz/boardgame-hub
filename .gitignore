@@ -1,0 +1,87 @@
+### API
+
+# --- Django / Python ---
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django local/dev artifacts
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# Media uploads (user-generated)
+media/
+
+# Collected static output (collectstatic)
+staticfiles/
+# Eğer STATIC_ROOT'u başka bir klasöre veriyorsan onu da buraya ekle.
+
+# --- Environments / secrets ---
+.env
+.env.*
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Local settings (keep a settings_local.py.example in repo instead)
+local_settings.py
+settings_local.py
+
+# --- Tests / Coverage ---
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+.tox/
+.nox/
+.hypothesis/
+
+# --- Type check / lint ---
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# --- Celery ---
+celerybeat-schedule
+celerybeat.pid
+
+# --- Build / packaging ---
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+pip-wheel-metadata/
+*.egg
+MANIFEST
+
+# --- Docs / notebooks ---
+docs/_build/
+.ipynb_checkpoints/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- IDEs / editors ---
+.vscode/
+.idea/
+*.iml
+*.swp
+*~
+
+### 
