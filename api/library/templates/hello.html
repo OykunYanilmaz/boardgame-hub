@@ -11,5 +11,11 @@
   {% else %}
   <h1>Hello World</h1>
   {% endif %}
+
+  <ul>
+    {% for game in games %}
+    <li>{{ game.name }} - {{ game.weight }} - {{ game.publisher.name }} </li>
+    {% endfor %}
+  </ul>
 </body>
 </html>

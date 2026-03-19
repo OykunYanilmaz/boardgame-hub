@@ -1,7 +1,9 @@
 from django.shortcuts import render
-# from django.http import HttpResponse
-
+from library.models import Game
 
 def say_hello(request):
+    queryset = Game.objects.all().select_related('publisher')
+    
+
     # return HttpResponse("Hello World")
-    return render(request, 'hello.html', {'name': 'Oykun'})
+    return render(request, 'hello.html', {'name': 'Oykun', 'games': list(queryset)})

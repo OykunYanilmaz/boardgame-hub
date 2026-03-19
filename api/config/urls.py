@@ -18,6 +18,9 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 
+admin.site.site_header = 'Boardgame-Hub Admin'
+admin.site.index_title = 'Site Admin'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('library/', include('library.urls')),
