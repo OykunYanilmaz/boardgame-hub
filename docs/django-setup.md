@@ -58,3 +58,50 @@ if settings.DEBUG:
         path('__debug__/', include(debug_toolbar.urls)),
     ]
 ```
+
+### 3- Django Rest Framework
+```sh
+pipenv install djangorestframework
+```
+
+```py
+INSTALLED_APPS = [
+    'rest_framework',
+]
+
+REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
+}
+```
+
+### 4- Nested Routers
+```sh
+pipenv install drf-nested-routers
+```
+
+```py
+from rest_framework_nested import routers
+
+products_router = routers.NestedDefaultRouter(router, 'products', lookup='product')  # product_pk
+products_router.register('reviews', views.ReviewViewSet, basename='product-reviews')
+
+urlpatterns = router.urls + products_router.urls
+```
+
+### 5- Generic Filtering
+```sh
+pipenv install django-filter
+```
+
+```py
+INSTALLED_APPS = [
+    'django_filters',
+]
+```
+
+```py
+from django_filters.rest_framework import DjangoFilterBackend
+
+filter_backends = [DjangoFilterBackend]
+filterset_fields = ['collection_id']
+```
