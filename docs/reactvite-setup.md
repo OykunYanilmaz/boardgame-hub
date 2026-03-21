@@ -101,3 +101,16 @@ dist-ssr
     stdin_open: true
     tty: true
 ```
+
+### 5- Install ChakraUI for Vite
+https://chakra-ui.com/docs/get-started/frameworks/vite
+
+### 6- Install other useful libraries - Part 1
+```sh
+npm i react-icons immer react-hook-form zod @hookform/resolvers axios
+```
+
+We installed emotion when we were installing ChakraUI. So this is optional. Another Css in Js library.
+```sh
+npm i styled-components @types/styled-components
+```
