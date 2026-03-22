@@ -87,3 +87,10 @@ class Game(models.Model):
         if self.game_type == GameType.EXPANSION and not self.parent_game:
             raise ValidationError("Expansion must have a parent game.")
         
+
+class Review(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='reviews')
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    # rating = models.DecimalField(null=True, blank=True, max_digits=4, decimal_places=2, validators=[MinValueValidator(1), MaxValueValidator(10)])
+    date = models.DateField(auto_now_add=True)

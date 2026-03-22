@@ -9,6 +9,8 @@ psycopg = {extras = ["binary"], version = "*"}
 django-debug-toolbar = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+drf-nested-routers = "*"
+django-filter = "*"
 
 [dev-packages]
 ruff = "*"

@@ -1,16 +1,17 @@
 # from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.db.models.aggregates import Count
-
+from django_filters.rest_framework import DjangoFilterBackend
 # from rest_framework.generics import ListAPIView, RetrieveAPIView
 # from rest_framework.decorators import api_view
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
-from rest_framework.viewsets import ReadOnlyModelViewSet
 # from rest_framework import status
+from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
-from .models import Category, Game, Mechanism, Publisher
-from .serializers import CategorySerializer, GameSerializer, MechanismSerializer, PublisherSerializer
+from .filters import GameFilter
+from .models import Category, Game, Mechanism, Publisher, Review
+from .serializers import CategorySerializer, GameSerializer, MechanismSerializer, PublisherSerializer, ReviewSerializer
 
 # Function-based and Class-based Views
 
@@ -36,8 +37,13 @@ class HelloView(ListView):
 # DRF API Views
 
 class GameViewSet(ReadOnlyModelViewSet):
-    queryset = Game.objects.select_related('publisher').all()
+    # queryset = Game.objects.select_related('publisher').all()
+    queryset = Game.objects.all()
     serializer_class = GameSerializer
+    filter_backends = [DjangoFilterBackend]
+    # filterset_fields = ['publisher_id']
+    filterset_class = GameFilter
+
     # def get_serializer_context(self):
     #     return {'request': self.request}
 
@@ -85,3 +91,12 @@ class CategoryViewSet(ReadOnlyModelViewSet):
 class MechanismViewSet(ReadOnlyModelViewSet):
     queryset = Mechanism.objects.annotate(games_count=Count('games')).all()
     serializer_class = MechanismSerializer
+
+class ReviewViewSet(ModelViewSet):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.filter(game_id=self.kwargs['game_pk'])
+
+    def get_serializer_context(self):
+        return {'game_id': self.kwargs['game_pk']}
