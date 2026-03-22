@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_filters',
     'debug_toolbar',
     'rest_framework',
+    'djoser',
     'library',
     'accounts',
 ]
@@ -155,9 +156,20 @@ STATIC_URL = 'static/'
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
+
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 5
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
+
+# JWT
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+}
+
 
 # AUTH - USER
 

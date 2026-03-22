@@ -125,3 +125,34 @@ from django_filters.rest_framework import DjangoFilterBackend
 filter_backends = [DjangoFilterBackend]
 filterset_fields = ['collection_id']
 ```
+
+### 7- Auth System Library - Djoser and SimpleJwt
+```sh
+pipenv install djoser
+```
+
+```py
+INSTALLED_APPS = [
+    'djoser',
+]
+
+path('auth/', include('djoser.urls')),
+```
+
+```sh
+pipenv install djangorestframework_simplejwt
+```
+
+```py
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+}
+
+path('auth/', include('djoser.urls.jwt')),
+```
