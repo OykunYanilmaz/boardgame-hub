@@ -1,4 +1,4 @@
-## After Installation
+## After Setup and Installation
 
 ### 1- .gitignore file
 ```git
@@ -74,7 +74,27 @@ REST_FRAMEWORK = {
 }
 ```
 
-### 4- Nested Routers
+### 4- CORS
+```sh
+pipenv install django-cors-headers
+```
+
+```py
+INSTALLED_APPS = [
+    "corsheaders",
+]
+
+MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+```
+
+### 5- Nested Routers
 ```sh
 pipenv install drf-nested-routers
 ```
@@ -88,7 +108,7 @@ products_router.register('reviews', views.ReviewViewSet, basename='product-revie
 urlpatterns = router.urls + products_router.urls
 ```
 
-### 5- Generic Filtering
+### 6- Generic Filtering
 ```sh
 pipenv install django-filter
 ```
