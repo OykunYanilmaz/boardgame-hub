@@ -7,8 +7,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
 # from rest_framework import status
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
+from .paginations import GamePagination
 from .filters import GameFilter
 from .models import Category, Game, Mechanism, Publisher, Review
 from .serializers import CategorySerializer, GameSerializer, MechanismSerializer, PublisherSerializer, ReviewSerializer
@@ -25,7 +27,7 @@ class HelloView(ListView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Oykun'
         return context
-    
+
     def get_queryset(self):
         return Game.objects.select_related('publisher').all()
 
@@ -37,12 +39,14 @@ class HelloView(ListView):
 # DRF API Views
 
 class GameViewSet(ReadOnlyModelViewSet):
-    # queryset = Game.objects.select_related('publisher').all()
-    queryset = Game.objects.all()
+    queryset = Game.objects.select_related('publisher').all()
     serializer_class = GameSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_fields = ['publisher_id']
     filterset_class = GameFilter
+    search_fields = ['name', 'description', 'publisher__name']
+    ordering_fields = ['weight']
+    pagination_class = GamePagination
 
     # def get_serializer_context(self):
     #     return {'request': self.request}
@@ -71,7 +75,7 @@ class GameViewSet(ReadOnlyModelViewSet):
 #         serializer.save()
 #         # serializer.validated_data
 #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
 
 class PublisherViewSet(ReadOnlyModelViewSet):
     queryset = Publisher.objects.annotate(games_count=Count('games')).all()

@@ -6,6 +6,6 @@ class GameFilter(FilterSet):
     class Meta:
         model = Game
         fields = {
-            'publisher_id': ['exact'],
+            'publisher': ['exact'],
             'weight': ['gt', 'lt']
         }
