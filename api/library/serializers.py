@@ -5,14 +5,14 @@ from .models import Category, Game, Mechanism, Publisher, Review
 # Serializers and ModelSerializers
 
 class MechanismSerializer(serializers.ModelSerializer):
-    games_count = serializers.IntegerField()
+    games_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Mechanism
         fields = ['id', 'name', 'games_count']
 
 class CategorySerializer(serializers.ModelSerializer):
-    games_count = serializers.IntegerField()
+    games_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Category
@@ -28,7 +28,7 @@ class PublisherSerializer(serializers.ModelSerializer):
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'name', 'description', 'weight', 'weight_for_pros', 'publisher']
+        fields = ['id', 'name', 'description', 'year_published', 'weight', 'weight_for_pros', 'publisher', 'categories', 'mechanisms']
 
     weight_for_pros = serializers.SerializerMethodField(method_name='calculate_weight_for_pros')
 
@@ -41,6 +41,8 @@ class GameSerializer(serializers.ModelSerializer):
     #     queryset=Publisher.objects.all(),
     #     view_name='library:publisher-detail'
     # )
+    categories = CategorySerializer(many=True, read_only=True)
+    mechanisms = MechanismSerializer(many=True, read_only=True)
 
     def calculate_weight_for_pros(self, game: Game):
         return game.weight * Decimal(0.9)

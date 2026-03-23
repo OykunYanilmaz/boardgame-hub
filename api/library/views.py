@@ -41,8 +41,9 @@ class HelloView(ListView):
 # DRF API Views
 
 class GameViewSet(ReadOnlyModelViewSet):
-    queryset = Game.objects.select_related('publisher').all()
+    queryset = Game.objects.select_related('publisher').prefetch_related('categories', 'mechanisms').all()
     serializer_class = GameSerializer
+    
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_fields = ['publisher_id']
     filterset_class = GameFilter
