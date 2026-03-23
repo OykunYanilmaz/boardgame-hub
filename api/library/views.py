@@ -7,9 +7,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
 # from rest_framework import status
+# from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, DjangoModelPermissions
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
+from .permissions import IsAdminOrReadOnly
 from .paginations import GamePagination
 from .filters import GameFilter
 from .models import Category, Game, Mechanism, Publisher, Review
@@ -98,7 +100,14 @@ class MechanismViewSet(ReadOnlyModelViewSet):
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
+    permission_classes = [IsAdminOrReadOnly]
+    # permission_classes = [IsAuthenticated]
 
+    # def get_permissions(self):
+    #     if self.request.method == 'GET':
+    #         return [AllowAny()]
+    #     return [IsAuthenticated()]
+    
     def get_queryset(self):
         return Review.objects.filter(game_id=self.kwargs['game_pk'])
 

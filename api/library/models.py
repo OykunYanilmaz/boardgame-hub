@@ -94,3 +94,8 @@ class Review(models.Model):
     description = models.TextField()
     # rating = models.DecimalField(null=True, blank=True, max_digits=4, decimal_places=2, validators=[MinValueValidator(1), MaxValueValidator(10)])
     date = models.DateField(auto_now_add=True)
+
+    # class Meta:
+    #     permissions = [
+    #         ('view_review', 'Can view reviews')
+    #     ]
