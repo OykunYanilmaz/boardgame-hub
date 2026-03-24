@@ -9,6 +9,11 @@ export interface Game {
   categories: Category[];
 }
 
-const useGames = () => usePaginatedData<Game>('/games');
+const useGames = (selectedCategory: Category | null) =>
+  usePaginatedData<Game>(
+    '/games',
+    selectedCategory ? { params: { categories: selectedCategory.id } } : undefined,
+    [selectedCategory?.id]
+  );
 
 export default useGames;

@@ -14,6 +14,7 @@ export const CategoryIconList = ({ categories }: Props) => {
       {categories.map(category => (
         <Tooltip key={category.id} content={category.name} showArrow>
           <Icon
+            key={category.id}
             as={getCategoryIcon(category.name)}
             boxSize={5}
             cursor="pointer"

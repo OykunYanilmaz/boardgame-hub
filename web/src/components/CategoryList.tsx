@@ -1,10 +1,15 @@
 import { getCategoryIcon } from '@/constants/category-icons';
-import useCategories from '@/hooks/useCategories';
-import { HStack, Icon, List, Spinner, Text } from '@chakra-ui/react';
+import useCategories, { type Category } from '@/hooks/useCategories';
+import { Button, Icon, List, Spinner } from '@chakra-ui/react';
 import CategoryListSkeleton from './CategoryListSkeleton';
 // import { BiCategory } from "react-icons/bi";
 
-const CategoryList = () => {
+interface Props {
+  onSelectCategory: (category: Category) => void;
+  selectedCategory: Category | null;
+}
+
+const CategoryList = ({selectedCategory, onSelectCategory}: Props) => {
   const { data, isLoading, error } = useCategories();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -40,11 +45,15 @@ const CategoryList = () => {
 
     <List.Root marginTop={4}>
       {data.map(category => (
-        <List.Item key={category.id} paddingY="5px" listStyle={'none'}>
-          <HStack cursor="pointer" transition="all 0.2s ease" _hover={{ color: 'tomato' }}>
-            <Icon as={getCategoryIcon(category.name)} />
-            <Text fontSize="md">{category.name}</Text>
-          </HStack>
+        <List.Item key={category.id} paddingY="3px" listStyle={'none'}>
+            <Button 
+                    textDecoration={category.id === selectedCategory?.id ? 'underline' : 'none'}
+                    color={category.id === selectedCategory?.id ? 'tomato' : 'none'}
+                    cursor="pointer" transition="all 0.2s ease" _hover={{ color: 'tomato'}} 
+                    onClick={() => onSelectCategory(category)} variant='plain' fontSize="lg">
+              <Icon as={getCategoryIcon(category.name)} />
+              {category.name}
+            </Button>
         </List.Item>
       ))}
     </List.Root>

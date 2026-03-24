@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import apiClient from '@/services/api-client';
-import { CanceledError } from 'axios';
+import { CanceledError, type AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 
 type PaginatedResponse<T> = {
@@ -10,7 +11,7 @@ type PaginatedResponse<T> = {
     results: T[]
 }
 
-const usePaginatedData = <T>(endpoint: string) => {
+const usePaginatedData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?: any[]) => {
   const [paginatedData, setData] = useState<T[]>([]);
   const [error, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ const usePaginatedData = <T>(endpoint: string) => {
 
     setLoading(true);
     apiClient
-      .get<PaginatedResponse<T>>(endpoint, { signal: controller.signal })
+      .get<PaginatedResponse<T>>(endpoint, { signal: controller.signal, ...requestConfig })
       .then(res => {
         setData(res.data.results);
         setLoading(false);
@@ -32,7 +33,7 @@ const usePaginatedData = <T>(endpoint: string) => {
       });
 
     return () => controller.abort();
-  }, []);
+  }, deps ? [...deps] : []);
 
   return { paginatedData, error, isLoading };
 };

@@ -3,15 +3,20 @@ import { SimpleGrid, Text } from '@chakra-ui/react';
 import GameCard from './GameCard';
 import GameCardSkeleton from './GameCardSkeleton';
 import GameCardContainer from './GameCardContainer';
+import type { Category } from '@/hooks/useCategories';
 
-const GameGrid = () => {
-  const { paginatedData, error, isLoading } = useGames();  
+interface Props {
+  selectedCategory: Category | null; 
+}
+
+const GameGrid = ({selectedCategory}: Props) => {
+  const { paginatedData, error, isLoading } = useGames(selectedCategory);  
   const skeletons = [1, 2, 3, 4, 5, 6]
 
   return (
     <>
       { error && <Text>{error}</Text>}
-      <SimpleGrid gap={3} padding='15px' columns={{ sm: 1, md: 2, lg: 3, xl: 4}}>
+      <SimpleGrid gap={5} padding='15px' columns={{ sm: 1, md: 2, lg: 3, xl: 4}}>
         { isLoading && skeletons.map(skeleton => (
           <GameCardContainer key={skeleton}>
             <GameCardSkeleton />
