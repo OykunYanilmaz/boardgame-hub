@@ -1,4 +1,4 @@
-import { Grid, GridItem, HStack } from '@chakra-ui/react';
+import { Box, Grid, GridItem, HStack } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import GameGrid from './components/GameGrid';
 import CategoryList from './components/CategoryList';
@@ -7,6 +7,7 @@ import type { Category } from './hooks/useCategories';
 import MechanismSelector from './components/MechanismSelector';
 import type { Mechanism } from './hooks/useMechanisms';
 import SortSelector from './components/SortSelector';
+import GameHeading from './components/GameHeading';
 
 export interface GameQuery {
   category: Category | null;
@@ -38,10 +39,13 @@ function App() {
         <CategoryList selectedCategory={gameQuery.category} onSelectCategory={(category) => setGameQuery({ ...gameQuery, category })}/>
       </GridItem>
       <GridItem area="main">
-        <HStack gap={3} paddingLeft={3} marginY={5}>
-          <MechanismSelector onSelectMechanism={(mechanism) => setGameQuery({ ...gameQuery, mechanism })} selectedMechanism={gameQuery.mechanism} />
-          <SortSelector sortOrder={gameQuery.sortOrder} onSelectSortOrder={(sortOrder) => setGameQuery({ ...gameQuery, sortOrder })}/>
-        </HStack>
+        <Box paddingLeft={3}>
+          <GameHeading gameQuery={gameQuery} />
+          <HStack gap={3} marginY={5}>
+            <MechanismSelector onSelectMechanism={(mechanism) => setGameQuery({ ...gameQuery, mechanism })} selectedMechanism={gameQuery.mechanism} />
+            <SortSelector sortOrder={gameQuery.sortOrder} onSelectSortOrder={(sortOrder) => setGameQuery({ ...gameQuery, sortOrder })}/>
+          </HStack>
+        </Box>
         <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>

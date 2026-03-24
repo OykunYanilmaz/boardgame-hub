@@ -5,6 +5,7 @@ import usePaginatedData from './usePaginatedData';
 export interface Game {
   id: number;
   name: string;
+  year_published: number;
   weight: number;
   publisher: { id: number; name: string };
   categories: Category[];

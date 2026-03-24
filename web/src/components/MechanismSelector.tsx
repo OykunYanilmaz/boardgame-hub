@@ -15,7 +15,7 @@ const MechanismSelector = ({ onSelectMechanism, selectedMechanism }: Props) => {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button variant="outline" size="sm">
+        <Button color={selectedMechanism ? 'tomato' : ''} variant="outline" size="sm">
           {selectedMechanism?.name || 'Mechanisms'}
           <Icon as={BsChevronDown}></Icon>
         </Button>

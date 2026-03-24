@@ -1,6 +1,6 @@
 import { getCategoryIcon } from '@/constants/category-icons';
 import useCategories, { type Category } from '@/hooks/useCategories';
-import { Button, Icon, List, Spinner } from '@chakra-ui/react';
+import { Box, Button, Heading, Icon, List, Spinner } from '@chakra-ui/react';
 import CategoryListSkeleton from './CategoryListSkeleton';
 // import { BiCategory } from "react-icons/bi";
 
@@ -43,10 +43,12 @@ const CategoryList = ({selectedCategory, onSelectCategory}: Props) => {
     //   </Tabs.Content>
     // </Tabs.Root>
 
+    <Box borderRight={'solid 1px'} height='100%'>
+    <Heading fontSize={'lg'} marginTop={2}>Categories</Heading>
     <List.Root marginTop={4}>
       {data.map(category => (
         <List.Item key={category.id} paddingY="3px" listStyle={'none'}>
-            <Button 
+            <Button whiteSpace="normal" textAlign={'left'}
                     textDecoration={category.id === selectedCategory?.id ? 'underline' : 'none'}
                     color={category.id === selectedCategory?.id ? 'tomato' : 'none'}
                     cursor="pointer" transition="all 0.2s ease" _hover={{ color: 'tomato'}} 
@@ -57,6 +59,7 @@ const CategoryList = ({selectedCategory, onSelectCategory}: Props) => {
         </List.Item>
       ))}
     </List.Root>
+    </Box>
   );
 };
 
