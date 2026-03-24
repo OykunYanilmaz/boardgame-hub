@@ -13,7 +13,11 @@ export interface Game {
 const useGames = (gameQuery: GameQuery) =>
   usePaginatedData<Game>(
     '/games/',
-    { params: { categories: gameQuery.category?.id, mechanisms: gameQuery.mechanism?.id } },
+    {params: { 
+      categories: gameQuery.category?.id, 
+      mechanisms: gameQuery.mechanism?.id,
+      ordering: gameQuery.sortOrder
+    }},
     [gameQuery]
   );
 
