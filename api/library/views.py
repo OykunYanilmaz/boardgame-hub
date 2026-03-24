@@ -47,7 +47,7 @@ class GameViewSet(ReadOnlyModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_fields = ['publisher_id']
     filterset_class = GameFilter
-    search_fields = ['name', 'description', 'publisher__name']
+    search_fields = ['name', 'publisher__name']
     ordering_fields = ['name', 'weight']
     pagination_class = DefaultPagination
 

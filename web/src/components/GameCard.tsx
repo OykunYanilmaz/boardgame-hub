@@ -1,8 +1,8 @@
 import type { Game } from '@/hooks/useGames';
 import { Card, Heading, HStack, Image, Text } from '@chakra-ui/react';
-import placeholder from '../assets/no-image-placeholder.webp';
 import CategoryIconList from './CategoryIconList';
 import WeightBadge from './WeightBadge';
+import getCroppedImageUrl from '@/services/image-url';
 
 interface Props {
   game: Game;
@@ -11,7 +11,7 @@ interface Props {
 const GameCard = ({ game }: Props) => {
   return (
     <Card.Root>
-      <Image src={placeholder} />
+      <Image src={getCroppedImageUrl('')} />
       <Card.Body>
         <Heading cursor={'pointer'} transition="all 0.2s ease" _hover={{ color: 'tomato' }}>
           {game.name}

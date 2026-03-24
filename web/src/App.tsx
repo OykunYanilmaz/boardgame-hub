@@ -12,6 +12,7 @@ export interface GameQuery {
   category: Category | null;
   mechanism: Mechanism | null;
   sortOrder: string;
+  searchText: string;
 }
 
 function App() {
@@ -31,13 +32,13 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar />
+        <NavBar onSearch={searchText => setGameQuery({ ...gameQuery, searchText })}/>
       </GridItem>
       <GridItem area="aside" paddingX={1} display={{ base: 'none', lg: 'block' }}>
         <CategoryList selectedCategory={gameQuery.category} onSelectCategory={(category) => setGameQuery({ ...gameQuery, category })}/>
       </GridItem>
       <GridItem area="main">
-        <HStack gap={5} paddingLeft={3} marginY={5}>
+        <HStack gap={3} paddingLeft={3} marginY={5}>
           <MechanismSelector onSelectMechanism={(mechanism) => setGameQuery({ ...gameQuery, mechanism })} selectedMechanism={gameQuery.mechanism} />
           <SortSelector sortOrder={gameQuery.sortOrder} onSelectSortOrder={(sortOrder) => setGameQuery({ ...gameQuery, sortOrder })}/>
         </HStack>
