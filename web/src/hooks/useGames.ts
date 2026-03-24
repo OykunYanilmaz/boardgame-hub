@@ -1,3 +1,4 @@
+import type { GameQuery } from '@/App';
 import type { Category } from './useCategories';
 import usePaginatedData from './usePaginatedData';
 
@@ -9,11 +10,11 @@ export interface Game {
   categories: Category[];
 }
 
-const useGames = (selectedCategory: Category | null) =>
+const useGames = (gameQuery: GameQuery) =>
   usePaginatedData<Game>(
-    '/games',
-    selectedCategory ? { params: { categories: selectedCategory.id } } : undefined,
-    [selectedCategory?.id]
+    '/games/',
+    { params: { categories: gameQuery.category?.id, mechanisms: gameQuery.mechanism?.id } },
+    [gameQuery]
   );
 
 export default useGames;

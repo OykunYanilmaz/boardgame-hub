@@ -5,6 +5,6 @@ export interface Category {
     name: string
 }
 
-const useCategories = () => useDefaultData<Category>('/categories')
+const useCategories = () => useDefaultData<Category>('/categories/')
 
 export default useCategories;

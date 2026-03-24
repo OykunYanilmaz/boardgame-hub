@@ -93,12 +93,12 @@ class PublisherViewSet(ReadOnlyModelViewSet):
 
 
 class CategoryViewSet(ReadOnlyModelViewSet):
-    queryset = Category.objects.annotate(games_count=Count('games')).all()
+    queryset = Category.objects.annotate(games_count=Count('games')).all().order_by('name')
     serializer_class = CategorySerializer
     pagination_class = None
 
 class MechanismViewSet(ReadOnlyModelViewSet):
-    queryset = Mechanism.objects.annotate(games_count=Count('games')).all()
+    queryset = Mechanism.objects.annotate(games_count=Count('games')).all().order_by('name')
     serializer_class = MechanismSerializer
     pagination_class = None
 

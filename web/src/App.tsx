@@ -4,9 +4,18 @@ import GameGrid from './components/GameGrid';
 import CategoryList from './components/CategoryList';
 import { useState } from 'react';
 import type { Category } from './hooks/useCategories';
+import MechanismSelector from './components/MechanismSelector';
+import type { Mechanism } from './hooks/useMechanisms';
+
+export interface GameQuery {
+  category: Category | null;
+  mechanism: Mechanism | null;
+}
 
 function App() {
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  // const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  // const [selectedMechanism, setSelectedMechanism] = useState<Mechanism | null>(null);
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
 
   return (
     <Grid
@@ -23,10 +32,11 @@ function App() {
         <NavBar />
       </GridItem>
       <GridItem area="aside" paddingX={1} display={{ base: 'none', lg: 'block' }}>
-        <CategoryList selectedCategory={selectedCategory} onSelectCategory={(category) => setSelectedCategory(category)}/>
+        <CategoryList selectedCategory={gameQuery.category} onSelectCategory={(category) => setGameQuery({ ...gameQuery, category })}/>
       </GridItem>
       <GridItem area="main">
-        <GameGrid selectedCategory={selectedCategory}/>
+        <MechanismSelector onSelectMechanism={(mechanism) => setGameQuery({ ...gameQuery, mechanism })} selectedMechanism={gameQuery.mechanism} />
+        <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );

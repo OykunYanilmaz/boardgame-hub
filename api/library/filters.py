@@ -9,5 +9,6 @@ class GameFilter(FilterSet):
         fields = {
             "publisher": ["exact"],
             "categories": ["exact"],
+            "mechanisms": ["exact"],
             "weight": ["gt", "lt"],
         }
