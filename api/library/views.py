@@ -12,7 +12,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
 from .permissions import IsAdminOrReadOnly
-from .paginations import GamePagination
+from .paginations import DefaultPagination
 from .filters import GameFilter
 from .models import Category, Game, Mechanism, Publisher, Review
 from .serializers import CategorySerializer, GameSerializer, MechanismSerializer, PublisherSerializer, ReviewSerializer
@@ -49,7 +49,7 @@ class GameViewSet(ReadOnlyModelViewSet):
     filterset_class = GameFilter
     search_fields = ['name', 'description', 'publisher__name']
     ordering_fields = ['weight']
-    pagination_class = GamePagination
+    pagination_class = DefaultPagination
 
     # def get_serializer_context(self):
     #     return {'request': self.request}
@@ -83,6 +83,7 @@ class GameViewSet(ReadOnlyModelViewSet):
 class PublisherViewSet(ReadOnlyModelViewSet):
     queryset = Publisher.objects.annotate(games_count=Count('games')).all()
     serializer_class = PublisherSerializer
+    pagination_class = DefaultPagination
 
 # @api_view()
 # def publisher_detail(request, pk):
@@ -94,10 +95,12 @@ class PublisherViewSet(ReadOnlyModelViewSet):
 class CategoryViewSet(ReadOnlyModelViewSet):
     queryset = Category.objects.annotate(games_count=Count('games')).all()
     serializer_class = CategorySerializer
+    pagination_class = None
 
 class MechanismViewSet(ReadOnlyModelViewSet):
     queryset = Mechanism.objects.annotate(games_count=Count('games')).all()
     serializer_class = MechanismSerializer
+    pagination_class = None
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
