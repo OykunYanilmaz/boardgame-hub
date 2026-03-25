@@ -4,7 +4,7 @@ import apiClient from '@/services/api-client';
 import { CanceledError, type AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 
-type PaginatedResponse<T> = {
+export type PaginatedResponse<T> = {
     count: number;
     next: string | null;
     previous: string | null;

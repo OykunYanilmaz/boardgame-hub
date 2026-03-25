@@ -19,7 +19,7 @@ const GameCard = ({ game }: Props) => {
           <WeightBadge weight={game.weight} />
         </HStack>
         <Heading cursor={'pointer'} transition="all 0.2s ease" _hover={{ color: 'tomato' }}>
-          {game.name} <Emoji yearPublished={game.year_published}/>
+          {game.name} <Emoji yearPublished={game.yearPublished}/>
         </Heading>
       </Card.Body>
       <Card.Footer borderTop='1px solid' borderColor='tomato'>

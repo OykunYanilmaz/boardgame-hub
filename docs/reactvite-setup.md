@@ -114,3 +114,37 @@ We installed emotion when we were installing ChakraUI. So this is optional. Anot
 ```sh
 npm i styled-components @types/styled-components
 ```
+
+### 7- Install React Query
+```sh
+npm i @tanstack/react-query
+npm i @tanstack/react-query-devtools
+```
+
+main.tsx:
+```tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools} from '@tanstack/react-query-devtools'
+
+const queryClient = new QueryClient();
+
+<QueryClientProvider client={queryClient}>
+    <App />
+    <ReactQueryDevtools />
+</QueryClientProvider>
+```
+
+### 8- Install Camelcase-keys
+```sh
+npm install camelcase-keys
+```
+
+api-client.ts:
+```ts
+import camelcaseKeys from 'camelcase-keys';
+
+apiClient.interceptors.response.use((response) => {
+  response.data = camelcaseKeys(response.data, { deep: true });
+  return response;
+});
+```
