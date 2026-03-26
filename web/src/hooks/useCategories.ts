@@ -2,9 +2,12 @@
 
 import categories from '../data/categories-data'
 
-import apiClient from '@/services/api-client';
+import APIClient from '@/services/api-client';
+
 import { useQuery } from '@tanstack/react-query';
 
+
+const apiClient = new APIClient<Category>('/categories/');
 
 export interface Category {
     id: number;
@@ -17,7 +20,8 @@ export interface Category {
 
 const useCategories = () => useQuery({
     queryKey: ['categories'],
-    queryFn: () => apiClient.get<Category[]>('/categories/').then(res => res.data),
+    // queryFn: () => apiClient.get<Category[]>('/categories/').then(res => res.data),
+    queryFn: apiClient.getAll,
     staleTime: 10 * 60 * 1000,
     initialData: categories
 })

@@ -1,9 +1,11 @@
 import type { GameQuery } from '@/App';
 import type { Category } from './useCategories';
 // import usePaginatedData from './usePaginatedData';
-import { useQuery } from '@tanstack/react-query';
-import apiClient from '@/services/api-client';
-import type { PaginatedResponse } from './usePaginatedData';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import APIClient, { type PaginatedResponse } from '@/services/api-client';
+
+
+const apiClient = new APIClient<Game>('/games/');
 
 export interface Game {
   id: number;
@@ -26,20 +28,44 @@ export interface Game {
 //     [gameQuery]
 //   );
 
+// const useGames = (gameQuery: GameQuery) =>
+//   useQuery<PaginatedResponse<Game>, Error>({
+//     queryKey: ['games', gameQuery],
+//     queryFn: () => 
+//       apiClient
+//         .getAllPaginated({
+//           params: { 
+//             categories: gameQuery.category?.id, 
+//             mechanisms: gameQuery.mechanism?.id,
+//             ordering: gameQuery.sortOrder,
+//             search: gameQuery.searchText
+//           }
+//         })
+//   })
+
 const useGames = (gameQuery: GameQuery) =>
-  useQuery<PaginatedResponse<Game>, Error>({
+  useInfiniteQuery<PaginatedResponse<Game>, Error>({
     queryKey: ['games', gameQuery],
-    queryFn: () => 
+    queryFn: ( { pageParam }) => 
       apiClient
-        .get<PaginatedResponse<Game>>('/games/', {
+        .getAllPaginated({
           params: { 
             categories: gameQuery.category?.id, 
             mechanisms: gameQuery.mechanism?.id,
             ordering: gameQuery.sortOrder,
-            search: gameQuery.searchText
+            search: gameQuery.searchText,
+            page: pageParam
           }
-        })
-        .then(res => res.data)
+        }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.next ? allPages.length + 1 : undefined;
+
+      // if (!lastPage.next) return undefined;
+
+      // const nextPage = new URL(lastPage.next).searchParams.get('page');
+      // return nextPage ? Number(nextPage) : undefined;
+    }
   })
 
 export default useGames;

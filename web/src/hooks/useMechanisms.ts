@@ -3,7 +3,10 @@
 import mechanisms from '../data/mechanisms.data';
 
 import { useQuery } from '@tanstack/react-query';
-import apiClient from '@/services/api-client';
+import APIClient from '@/services/api-client';
+
+
+const apiClient = new APIClient<Mechanism>('/mechanisms/');
 
 export interface Mechanism {
   id: number;
@@ -16,7 +19,8 @@ export interface Mechanism {
 
 const useMechanisms = () => useQuery({
   queryKey: ['mechanisms'],
-  queryFn: () => apiClient.get<Mechanism[]>('/mechanisms/').then(res => res.data),
+  // queryFn: () => apiClient.get<Mechanism[]>('/mechanisms/').then(res => res.data),
+  queryFn: apiClient.getAll,
   staleTime: 10 * 60 * 1000,
   initialData: mechanisms
   // initialData: { count: mechanisms.length, results: mechanisms }
