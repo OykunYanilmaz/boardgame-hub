@@ -1,23 +1,13 @@
 // import type { GameQuery } from '@/App';
-import type { Category } from './useCategories';
 // import usePaginatedData from './usePaginatedData';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { type PaginatedResponse } from '@/services/api-client';
-import ms from 'ms'
+import ms from 'ms';
 import useGameQueryStore from '@/store';
+import type { Game } from '@/entities/Game';
+
 
 const apiClient = new APIClient<Game>('/games/');
-
-export interface Game {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-  yearPublished: number;
-  weight: number;
-  publisher: { id: number; name: string };
-  categories: Category[];
-}
 
 // const useGames = (gameQuery: GameQuery) =>
 //   usePaginatedData<Game>(
@@ -47,7 +37,7 @@ export interface Game {
 //   })
 
 const useGames = () => {
-  const gameQuery = useGameQueryStore(s => s.gameQuery)
+  const gameQuery = useGameQueryStore(s => s.gameQuery);
 
   return useInfiniteQuery<PaginatedResponse<Game>, Error>({
     queryKey: ['games', gameQuery],
@@ -72,6 +62,6 @@ const useGames = () => {
     },
     staleTime: ms('10m'),
   });
-}
+};
 
 export default useGames;

@@ -1,6 +1,6 @@
 import { HStack, Icon } from '@chakra-ui/react';
 import { Tooltip } from '@/components/ui/tooltip';
-import type { Category } from '@/hooks/useCategories';
+import type { Category } from '@/entities/Category';
 import { getCategoryIcon } from '@/constants/category-icons';
 
 interface Props {
@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const CategoryIconList = ({ categories }: Props) => {
-
   return (
     <HStack marginY={2}>
       {categories.map(category => (

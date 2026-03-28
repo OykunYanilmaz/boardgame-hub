@@ -13,6 +13,7 @@ interface GameQueryStore {
     setCategoryId: (categoryId: number) => void;
     setMechanismId: (mechanismId: number) => void;
     setSortOrder: (sortOrder: string) => void;
+    resetGameQuery: () => void;
 }
 
 const useGameQueryStore = create<GameQueryStore>(set => ({
@@ -20,7 +21,8 @@ const useGameQueryStore = create<GameQueryStore>(set => ({
     setSearchText: (searchText) => set(() => ({ gameQuery: {searchText} })),
     setCategoryId: (categoryId) => set(store => ({ gameQuery: {...store.gameQuery, categoryId}})),
     setMechanismId: (mechanismId) => set(store => ({ gameQuery: {...store.gameQuery, mechanismId}})),
-    setSortOrder: (sortOrder) => set(store => ({ gameQuery: {...store.gameQuery, sortOrder} }))
+    setSortOrder: (sortOrder) => set(store => ({ gameQuery: {...store.gameQuery, sortOrder} })),
+    resetGameQuery: () => set({ gameQuery: {} }),
 }))
 
 export default useGameQueryStore;
