@@ -2,25 +2,20 @@ import { Box, Grid, GridItem, HStack } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import GameGrid from './components/GameGrid';
 import CategoryList from './components/CategoryList';
-import { useState } from 'react';
+// import { useState } from 'react';
 // import type { Category } from './hooks/useCategories';
 import MechanismSelector from './components/MechanismSelector';
 // import type { Mechanism } from './hooks/useMechanisms';
 import SortSelector from './components/SortSelector';
 import GameHeading from './components/GameHeading';
 
-export interface GameQuery {
-  // category: Category | null;
-  categoryId?: number;
-  mechanismId?: number;
-  sortOrder: string;
-  searchText: string;
-}
+
 
 function App() {
   // const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   // const [selectedMechanism, setSelectedMechanism] = useState<Mechanism | null>(null);
-  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+
+  // const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
 
   return (
     <Grid
@@ -34,31 +29,37 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar onSearch={searchText => setGameQuery({ ...gameQuery, searchText })} />
+        {/* <NavBar onSearch={searchText => setGameQuery({ ...gameQuery, searchText })} /> */}
+        <NavBar />
       </GridItem>
       <GridItem area="aside" paddingX={1} display={{ base: 'none', lg: 'block' }}>
-        <CategoryList
+        {/* <CategoryList
           selectedCategoryId={gameQuery.categoryId}
           onSelectCategory={category => setGameQuery({ ...gameQuery, categoryId: category.id })}
-        />
+        /> */}
+        <CategoryList />
       </GridItem>
       <GridItem area="main">
         <Box paddingLeft={3}>
-          <GameHeading gameQuery={gameQuery} />
+          {/* <GameHeading gameQuery={gameQuery} /> */}
+          <GameHeading />
           <HStack gap={3} marginY={5}>
-            <MechanismSelector
+            {/* <MechanismSelector
               onSelectMechanism={mechanism =>
                 setGameQuery({ ...gameQuery, mechanismId: mechanism.id })
               }
               selectedMechanismId={gameQuery.mechanismId}
-            />
-            <SortSelector
+            /> */}
+            <MechanismSelector />
+            {/* <SortSelector
               sortOrder={gameQuery.sortOrder}
               onSelectSortOrder={sortOrder => setGameQuery({ ...gameQuery, sortOrder })}
-            />
+            /> */}
+            <SortSelector />
           </HStack>
         </Box>
-        <GameGrid gameQuery={gameQuery} />
+        {/* <GameGrid gameQuery={gameQuery} /> */}
+        <GameGrid />
       </GridItem>
     </Grid>
   );

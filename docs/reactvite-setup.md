@@ -156,3 +156,13 @@ npm i react-infinite-scroll-component
 npm i ms
 npm i -D @types/ms
 ```
+
+### 10- Zustand
+```sh
+npm i zustand
+```
+Optional:
+```sh
+npm i simple-zustand-devtools
+npm i -D @types/node
+```

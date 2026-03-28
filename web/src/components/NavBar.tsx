@@ -3,11 +3,11 @@ import logo from '../assets/board-games.svg'
 import ThemeSwitch from "./ThemeSwitch"
 import SearchInput from "./SearchInput"
 
-interface Props {
-    onSearch: (searchText: string) => void;
-}
+// interface Props {
+//     onSearch: (searchText: string) => void;
+// }
 
-const NavBar = ({onSearch}: Props) => {
+const NavBar = () => {
   return (
     <HStack padding='10px' gap={3}>
       <HStack flexShrink={0} >
@@ -16,7 +16,8 @@ const NavBar = ({onSearch}: Props) => {
                 display={{ base: "none", sm: "block" }}
                 fontSize={{ base: "18px", sm: "22px", md: "26px", lg: "30px" }}>BG-Hub</Text>
       </HStack>
-      <SearchInput onSearch={onSearch}/>
+      {/* <SearchInput onSearch={onSearch}/> */}
+      <SearchInput />
       <ThemeSwitch />
     </HStack>
   )

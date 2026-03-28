@@ -1,17 +1,21 @@
 import { getCategoryIcon } from '@/constants/category-icons';
-import useCategories, { type Category } from '@/hooks/useCategories';
+import useCategories from '@/hooks/useCategories';
 import { Box, Button, Heading, Icon, List, Spinner } from '@chakra-ui/react';
 import CategoryListSkeleton from './CategoryListSkeleton';
+import useGameQueryStore from '@/store';
 // import { BiCategory } from "react-icons/bi";
 
-interface Props {
-  onSelectCategory: (category: Category) => void;
-  selectedCategoryId?: number
-}
+// interface Props {
+//   onSelectCategory: (category: Category) => void;
+//   selectedCategoryId?: number
+// }
 
-const CategoryList = ({ selectedCategoryId, onSelectCategory }: Props) => {
+const CategoryList = () => {
   const { data, isLoading, error } = useCategories();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const selectedCategoryId = useGameQueryStore(s => s.gameQuery.categoryId);
+  const setSelectedCategoryId = useGameQueryStore(s => s.setCategoryId);
 
   if (error) return null;
 
@@ -58,7 +62,7 @@ const CategoryList = ({ selectedCategoryId, onSelectCategory }: Props) => {
               cursor="pointer"
               transition="all 0.2s ease"
               _hover={{ color: 'tomato' }}
-              onClick={() => onSelectCategory(category)}
+              onClick={() => setSelectedCategoryId(category.id)}
               variant="plain"
               fontSize="lg"
             >

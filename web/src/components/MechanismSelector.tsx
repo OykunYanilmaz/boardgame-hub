@@ -1,15 +1,18 @@
 import useMechanism from '@/hooks/useMechanism';
-import useMechanisms, { type Mechanism } from '@/hooks/useMechanisms';
+import useMechanisms from '@/hooks/useMechanisms';
+import useGameQueryStore from '@/store';
 import { Button, Icon, Menu, Portal } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
 
-interface Props {
-  onSelectMechanism: (mechanism: Mechanism) => void;
-  selectedMechanismId?: number;
-}
+// interface Props {
+//   onSelectMechanism: (mechanism: Mechanism) => void;
+//   selectedMechanismId?: number;
+// }
 
-const MechanismSelector = ({ onSelectMechanism, selectedMechanismId }: Props) => {
+const MechanismSelector = () => {
   const { data, error } = useMechanisms();
+  const setSelectedMechanismId = useGameQueryStore(s => s.setMechanismId)
+  const selectedMechanismId = useGameQueryStore(s => s.gameQuery.mechanismId)
   const selectedMechanism = useMechanism(selectedMechanismId);
 
   if (error) return null;
@@ -27,7 +30,7 @@ const MechanismSelector = ({ onSelectMechanism, selectedMechanismId }: Props) =>
           <Menu.Content>
             {data.map(mechanism => (
                 <Menu.Item
-                  onClick={() => onSelectMechanism(mechanism)}
+                  onClick={() => setSelectedMechanismId(mechanism.id)}
                 //   onClick={() => setSelectedPlatformId(mechanism.id)}
                   value={mechanism.name}
                   key={mechanism.id}
