@@ -6,15 +6,15 @@ import CategoryListSkeleton from './CategoryListSkeleton';
 
 interface Props {
   onSelectCategory: (category: Category) => void;
-  selectedCategory: Category | null;
+  selectedCategoryId?: number
 }
 
-const CategoryList = ({selectedCategory, onSelectCategory}: Props) => {
+const CategoryList = ({ selectedCategoryId, onSelectCategory }: Props) => {
   const { data, isLoading, error } = useCategories();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   if (error) return null;
-  
+
   if (isLoading)
     return (
       <>
@@ -43,22 +43,31 @@ const CategoryList = ({selectedCategory, onSelectCategory}: Props) => {
     //   </Tabs.Content>
     // </Tabs.Root>
 
-    <Box borderRight={'solid 1px'} height='100%'>
-    <Heading fontSize={'lg'} marginTop={2}>Categories</Heading>
-    <List.Root marginTop={4}>
-      {data.map(category => (
-        <List.Item key={category.id} paddingY="3px" listStyle={'none'}>
-            <Button whiteSpace="normal" textAlign={'left'}
-                    textDecoration={category.id === selectedCategory?.id ? 'underline' : 'none'}
-                    color={category.id === selectedCategory?.id ? 'tomato' : 'none'}
-                    cursor="pointer" transition="all 0.2s ease" _hover={{ color: 'tomato'}} 
-                    onClick={() => onSelectCategory(category)} variant='plain' fontSize="lg">
+    <Box borderRight={'solid 1px'} height="100%">
+      <Heading fontSize={'lg'} marginTop={2}>
+        Categories
+      </Heading>
+      <List.Root marginTop={4}>
+        {data.map(category => (
+          <List.Item key={category.id} paddingY="3px" listStyle={'none'}>
+            <Button
+              whiteSpace="normal"
+              textAlign={'left'}
+              textDecoration={category.id === selectedCategoryId ? 'underline' : 'none'}
+              color={category.id === selectedCategoryId ? 'tomato' : 'none'}
+              cursor="pointer"
+              transition="all 0.2s ease"
+              _hover={{ color: 'tomato' }}
+              onClick={() => onSelectCategory(category)}
+              variant="plain"
+              fontSize="lg"
+            >
               <Icon as={getCategoryIcon(category.name)} />
               {category.name}
             </Button>
-        </List.Item>
-      ))}
-    </List.Root>
+          </List.Item>
+        ))}
+      </List.Root>
     </Box>
   );
 };

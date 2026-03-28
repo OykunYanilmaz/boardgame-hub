@@ -1,14 +1,16 @@
+import useMechanism from '@/hooks/useMechanism';
 import useMechanisms, { type Mechanism } from '@/hooks/useMechanisms';
 import { Button, Icon, Menu, Portal } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
 
 interface Props {
   onSelectMechanism: (mechanism: Mechanism) => void;
-  selectedMechanism: Mechanism | null;
+  selectedMechanismId?: number;
 }
 
-const MechanismSelector = ({ onSelectMechanism, selectedMechanism }: Props) => {
+const MechanismSelector = ({ onSelectMechanism, selectedMechanismId }: Props) => {
   const { data, error } = useMechanisms();
+  const selectedMechanism = useMechanism(selectedMechanismId);
 
   if (error) return null;
 

@@ -148,3 +148,11 @@ apiClient.interceptors.response.use((response) => {
   return response;
 });
 ```
+
+### 9- Install Infinite Scroll and Ms
+```sh
+npm i react-infinite-scroll-component
+
+npm i ms
+npm i -D @types/ms
+```

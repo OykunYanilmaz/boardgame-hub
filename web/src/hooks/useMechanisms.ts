@@ -1,7 +1,7 @@
 // import useDefaultData from "./useDefaultData";
 
 import mechanisms from '../data/mechanisms.data';
-
+import ms from 'ms'
 import { useQuery } from '@tanstack/react-query';
 import APIClient from '@/services/api-client';
 
@@ -21,7 +21,7 @@ const useMechanisms = () => useQuery({
   queryKey: ['mechanisms'],
   // queryFn: () => apiClient.get<Mechanism[]>('/mechanisms/').then(res => res.data),
   queryFn: apiClient.getAll,
-  staleTime: 10 * 60 * 1000,
+  staleTime: ms('10m'),
   initialData: mechanisms
   // initialData: { count: mechanisms.length, results: mechanisms }
 })

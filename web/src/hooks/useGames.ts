@@ -3,7 +3,7 @@ import type { Category } from './useCategories';
 // import usePaginatedData from './usePaginatedData';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { type PaginatedResponse } from '@/services/api-client';
-
+import ms from 'ms'
 
 const apiClient = new APIClient<Game>('/games/');
 
@@ -19,8 +19,8 @@ export interface Game {
 // const useGames = (gameQuery: GameQuery) =>
 //   usePaginatedData<Game>(
 //     '/games/',
-//     {params: { 
-//       categories: gameQuery.category?.id, 
+//     {params: {
+//       categories: gameQuery.category?.id,
 //       mechanisms: gameQuery.mechanism?.id,
 //       ordering: gameQuery.sortOrder,
 //       search: gameQuery.searchText
@@ -31,11 +31,11 @@ export interface Game {
 // const useGames = (gameQuery: GameQuery) =>
 //   useQuery<PaginatedResponse<Game>, Error>({
 //     queryKey: ['games', gameQuery],
-//     queryFn: () => 
+//     queryFn: () =>
 //       apiClient
 //         .getAllPaginated({
-//           params: { 
-//             categories: gameQuery.category?.id, 
+//           params: {
+//             categories: gameQuery.category?.id,
 //             mechanisms: gameQuery.mechanism?.id,
 //             ordering: gameQuery.sortOrder,
 //             search: gameQuery.searchText
@@ -46,17 +46,16 @@ export interface Game {
 const useGames = (gameQuery: GameQuery) =>
   useInfiniteQuery<PaginatedResponse<Game>, Error>({
     queryKey: ['games', gameQuery],
-    queryFn: ( { pageParam }) => 
-      apiClient
-        .getAllPaginated({
-          params: { 
-            categories: gameQuery.category?.id, 
-            mechanisms: gameQuery.mechanism?.id,
-            ordering: gameQuery.sortOrder,
-            search: gameQuery.searchText,
-            page: pageParam
-          }
-        }),
+    queryFn: ({ pageParam }) =>
+      apiClient.getAllPaginated({
+        params: {
+          categories: gameQuery.categoryId,
+          mechanisms: gameQuery.mechanismId,
+          ordering: gameQuery.sortOrder,
+          search: gameQuery.searchText,
+          page: pageParam,
+        },
+      }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.next ? allPages.length + 1 : undefined;
@@ -65,7 +64,8 @@ const useGames = (gameQuery: GameQuery) =>
 
       // const nextPage = new URL(lastPage.next).searchParams.get('page');
       // return nextPage ? Number(nextPage) : undefined;
-    }
-  })
+    },
+    staleTime: ms('10m'),
+  });
 
 export default useGames;

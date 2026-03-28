@@ -1,11 +1,8 @@
 // import useDefaultData from "./useDefaultData";
-
 import categories from '../data/categories-data'
-
 import APIClient from '@/services/api-client';
-
 import { useQuery } from '@tanstack/react-query';
-
+import ms from 'ms'
 
 const apiClient = new APIClient<Category>('/categories/');
 
@@ -22,7 +19,7 @@ const useCategories = () => useQuery({
     queryKey: ['categories'],
     // queryFn: () => apiClient.get<Category[]>('/categories/').then(res => res.data),
     queryFn: apiClient.getAll,
-    staleTime: 10 * 60 * 1000,
+    staleTime: ms('10m'),
     initialData: categories
 })
 
