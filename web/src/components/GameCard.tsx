@@ -4,6 +4,7 @@ import CategoryIconList from './CategoryIconList';
 import WeightBadge from './WeightBadge';
 import getCroppedImageUrl from '@/services/image-url';
 import Emoji from './Emoji';
+import { Link } from 'react-router-dom';
 
 interface Props {
   game: Game;
@@ -19,7 +20,8 @@ const GameCard = ({ game }: Props) => {
           <WeightBadge weight={game.weight} />
         </HStack>
         <Heading cursor={'pointer'} transition="all 0.2s ease" _hover={{ color: 'tomato' }}>
-          {game.name} <Emoji yearPublished={game.yearPublished}/>
+          <Link to={'/games/' + game.slug}>{game.name}</Link>
+          <Emoji yearPublished={game.yearPublished} />
         </Heading>
       </Card.Body>
       <Card.Footer borderTop='1px solid' borderColor='tomato'>

@@ -11,6 +11,8 @@ const apiClient = new APIClient<Game>('/games/');
 export interface Game {
   id: number;
   name: string;
+  slug: string;
+  description: string;
   yearPublished: number;
   weight: number;
   publisher: { id: number; name: string };

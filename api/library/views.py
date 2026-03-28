@@ -50,6 +50,8 @@ class GameViewSet(ReadOnlyModelViewSet):
     search_fields = ['name', 'publisher__name']
     ordering_fields = ['name', 'weight']
     pagination_class = DefaultPagination
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'slug'
 
     # def get_serializer_context(self):
     #     return {'request': self.request}

@@ -28,7 +28,7 @@ class PublisherSerializer(serializers.ModelSerializer):
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'name', 'description', 'year_published', 'weight', 'weight_for_pros', 'publisher', 'categories', 'mechanisms']
+        fields = ['id', 'name', 'slug', 'description', 'year_published', 'weight', 'weight_for_pros', 'publisher', 'categories', 'mechanisms']
 
     weight_for_pros = serializers.SerializerMethodField(method_name='calculate_weight_for_pros')
 
