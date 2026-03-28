@@ -1,37 +1,28 @@
-import { Box, Grid, GridItem, HStack } from '@chakra-ui/react';
-import NavBar from './components/NavBar';
-import GameGrid from './components/GameGrid';
-import CategoryList from './components/CategoryList';
-// import { useState } from 'react';
-// import type { Category } from './hooks/useCategories';
-import MechanismSelector from './components/MechanismSelector';
-// import type { Mechanism } from './hooks/useMechanisms';
-import SortSelector from './components/SortSelector';
-import GameHeading from './components/GameHeading';
+import CategoryList from "@/components/CategoryList"
+import GameGrid from "@/components/GameGrid"
+import GameHeading from "@/components/GameHeading"
+import MechanismSelector from "@/components/MechanismSelector"
+import SortSelector from "@/components/SortSelector"
+import { Box, Grid, GridItem, HStack } from "@chakra-ui/react"
 
-
-
-function App() {
-  // const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  // const [selectedMechanism, setSelectedMechanism] = useState<Mechanism | null>(null);
-
-  // const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
-
+const HomePage = () => {
   return (
     <Grid
       templateAreas={{
-        base: `"nav" "main"`,
-        lg: `"nav nav" "aside main"`,
+        // base: `"nav" "main"`,
+        // lg: `"nav nav" "aside main"`,
+        base: `"main"`,
+        lg: `"aside main"`,
       }}
       templateColumns={{
         base: '1fr',
         lg: '200px 1fr',
       }}
     >
-      <GridItem area="nav">
+      {/* <GridItem area="nav"> */}
         {/* <NavBar onSearch={searchText => setGameQuery({ ...gameQuery, searchText })} /> */}
-        <NavBar />
-      </GridItem>
+        {/* <NavBar /> */}
+      {/* </GridItem> */}
       <GridItem area="aside" paddingX={1} display={{ base: 'none', lg: 'block' }}>
         {/* <CategoryList
           selectedCategoryId={gameQuery.categoryId}
@@ -62,7 +53,7 @@ function App() {
         <GameGrid />
       </GridItem>
     </Grid>
-  );
+  )
 }
 
-export default App;
+export default HomePage

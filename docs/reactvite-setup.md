@@ -166,3 +166,8 @@ Optional:
 npm i simple-zustand-devtools
 npm i -D @types/node
 ```
+
+### 11- React Router
+```sh
+npm i react-router-dom
+```
