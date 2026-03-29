@@ -28,6 +28,14 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 if not SECRET_KEY:
     raise ValueError("DJANGO_SECRET_KEY is not set")
 
+BGG_API_BASE_URL = os.getenv("BGG_API_BASE_URL")
+if not BGG_API_BASE_URL:
+    raise ValueError("BGG_API_BASE_URL is not set")
+
+BGG_API_TOKEN = os.getenv("BGG_API_TOKEN")
+if not BGG_API_TOKEN:
+    raise ValueError("BGG_API_TOKEN is not set")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG") == "True"
 
@@ -50,6 +58,7 @@ INSTALLED_APPS = [
     'djoser',
     'library',
     'accounts',
+    'bgg',
 ]
 
 MIDDLEWARE = [
@@ -152,6 +161,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Cache
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "boardgame-hub-cache",
+    }
+}
 
 # REST Framework
 
