@@ -4,6 +4,7 @@ import ThemeSwitch from "./ThemeSwitch"
 import SearchInput from "./SearchInput"
 import { Link } from "react-router-dom"
 import useGameQueryStore from "@/store"
+import SigningGroup from "./SigningGroup"
 
 // interface Props {
 //     onSearch: (searchText: string) => void;
@@ -11,7 +12,7 @@ import useGameQueryStore from "@/store"
 
 const NavBar = () => {
   const resetGameQuery = useGameQueryStore(s => s.resetGameQuery);
-
+  
   return (
     <HStack padding='10px' gap={3}>
       <HStack flexShrink={0}>
@@ -27,6 +28,7 @@ const NavBar = () => {
       {/* <SearchInput onSearch={onSearch}/> */}
       <SearchInput />
       <ThemeSwitch />
+      <SigningGroup />
     </HStack>
   )
 }

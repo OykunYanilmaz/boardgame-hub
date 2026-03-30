@@ -134,16 +134,32 @@ const queryClient = new QueryClient();
 </QueryClientProvider>
 ```
 
-### 8- Install Camelcase-keys
+### 8- Install Camelcase-keys and Decamelize-keys
+backend -> frontend = camelcase-keys
+frontend -> backend = decamelize-keys
 ```sh
 npm install camelcase-keys
+npm install decamelize-keys
 ```
 
 api-client.ts:
 ```ts
 import camelcaseKeys from 'camelcase-keys';
+import decamelizeKeys from 'decamelize-keys';
 
-apiClient.interceptors.response.use((response) => {
+axiosInstance.interceptors.request.use((config) => {
+  if (config.data) {
+    config.data = decamelizeKeys(config.data, { deep: true });
+  }
+
+  if (config.params) {
+    config.params = decamelizeKeys(config.params, { deep: true });
+  }
+
+  return config;
+});
+
+axiosInstance.interceptors.response.use((response) => {
   response.data = camelcaseKeys(response.data, { deep: true });
   return response;
 });
@@ -157,7 +173,7 @@ npm i ms
 npm i -D @types/ms
 ```
 
-### 10- Zustand
+### 10- Install Zustand
 ```sh
 npm i zustand
 ```
@@ -167,7 +183,7 @@ npm i simple-zustand-devtools
 npm i -D @types/node
 ```
 
-### 11- React Router
+### 11- Install React Router
 ```sh
 npm i react-router-dom
 ```

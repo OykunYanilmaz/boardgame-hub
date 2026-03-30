@@ -6,9 +6,6 @@ import ms from 'ms';
 import useGameQueryStore from '@/store';
 import type { Game } from '@/entities/Game';
 
-
-const apiClient = new APIClient<Game>('/games/');
-
 // const useGames = (gameQuery: GameQuery) =>
 //   usePaginatedData<Game>(
 //     '/games/',
@@ -35,6 +32,8 @@ const apiClient = new APIClient<Game>('/games/');
 //           }
 //         })
 //   })
+
+const apiClient = new APIClient<Game>('/games/');
 
 const useGames = () => {
   const gameQuery = useGameQueryStore(s => s.gameQuery);

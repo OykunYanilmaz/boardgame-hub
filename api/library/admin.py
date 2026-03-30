@@ -39,6 +39,8 @@ class ComplexityFilter(admin.SimpleListFilter):
 class GameInline(admin.TabularInline):
     model = models.Game
     extra = 1
+    # min_num = 1
+    # max_num = 5
     fk_name = 'publisher'
 
 @admin.register(models.Publisher)
@@ -66,11 +68,48 @@ class PublisherAdmin(admin.ModelAdmin):
 
 @admin.register(models.Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'games_count']
     prepopulated_fields = {"slug": ("name",)}
+    search_fields = ['name']
+
+    @admin.display(ordering='games_count', description='Games Count')
+    def games_count(self, category):
+        url = (
+                reverse('admin:library_game_changelist')
+                + '?'
+                + urlencode({
+                    'categories__id': str(category.id)
+                })
+              )
+        return format_html('<a href="{}">{}</a>', url, category.games_count)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            games_count=Count('games')
+        )        
 
 @admin.register(models.Mechanism)
 class MechanismAdmin(admin.ModelAdmin):
+    list_display = ['name', 'games_count']
     prepopulated_fields = {"slug": ("name",)}
+    search_fields = ['name']
+
+    @admin.display(ordering='games_count', description='Games Count')
+    def games_count(self, mechanism):
+        url = (
+                reverse('admin:library_game_changelist')
+                + '?'
+                + urlencode({
+                    'mechanisms__id': str(mechanism.id)
+                })
+              )
+        return format_html('<a href="{}">{}</a>', url, mechanism.games_count)
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            games_count=Count('games')
+        )        
+
 
 class ExpansionInline(admin.TabularInline):
     model = models.Game

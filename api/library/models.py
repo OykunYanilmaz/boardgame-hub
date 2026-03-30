@@ -70,12 +70,9 @@ class Game(models.Model):
 
     class Meta:
         ordering = ["name"]
-
-    # class Meta:
-    #     # db_table = 'store_customers'
-    #     indexes = [
-    #         models.Index(fields=['last_name', 'first_name'])
-    #     ]
+        # indexes = [
+        #     models.Index(fields=['last_name', 'first_name'])
+        # ]
 
     def __str__(self):
         return self.name

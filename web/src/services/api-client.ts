@@ -1,5 +1,6 @@
 import axios, { type AxiosRequestConfig } from "axios"
 import camelcaseKeys from 'camelcase-keys';
+import decamelizeKeys from "decamelize-keys";
 
 export type PaginatedResponse<T> = {
     count: number;
@@ -10,6 +11,18 @@ export type PaginatedResponse<T> = {
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  if (config.data) {
+    config.data = decamelizeKeys(config.data, { deep: true });
+  }
+
+  if (config.params) {
+    config.params = decamelizeKeys(config.params, { deep: true });
+  }
+
+  return config;
 });
 
 axiosInstance.interceptors.response.use((response) => {
