@@ -19,19 +19,19 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'games/:slug', element: <GameDetailPage /> },
       {
-        element: <GuestOnlyRoute />,
-        children: [
-          { path: 'login', element: <LoginPage /> },
-          { path: 'signup', element: <SignupPage /> },
-        ],
-      },
-      {
         element: <ProtectedRoute />,
         children: [
           { path: 'profile', element: <ProfilePage /> },
           { path: 'change-password', element: <ChangePasswordPage /> },
         ],
       },
+    ],
+  },
+  {
+    element: <GuestOnlyRoute />,
+    children: [
+      { path: '/login', element: <LoginPage /> },
+      { path: '/signup', element: <SignupPage /> },
     ],
   },
 ]);

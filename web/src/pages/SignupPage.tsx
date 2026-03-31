@@ -1,10 +1,13 @@
-import { Box, Button, Input, VStack, Text } from '@chakra-ui/react';
+import { Box, Button, Input, VStack, Text, Flex, HStack, Link as ChakraLink, Heading, Separator } from '@chakra-ui/react';
 import { PasswordInput } from "@/components/ui/password-input"
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useSignup from '@/hooks/useSignup';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import signupImage from '../assets/signup-image.webp';
+import { FaFacebookSquare } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 
 const signupSchema = z
   .object({
@@ -61,9 +64,23 @@ const SignupPage = () => {
   };
 
   return (
-    <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={5}>
-      <Box as="form" onSubmit={handleSubmit(onSubmit)} width="full" maxWidth="360px">
+    // <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={5}>
+    <Flex minH="100dvh">
+      <Flex flex={{ base: "1", lg: "0.8"}} justify="center">
+      <Box as="form" onSubmit={handleSubmit(onSubmit)} width="full" maxWidth={{ base: "260px", md: "360px"}} marginTop={10}>
         <VStack gap={3}>
+          <Heading>Sign up for Bg-Hub</Heading>
+          <Button width="full" variant="outline">
+            <FaFacebookSquare size="20px" color="#1877F2" /> Continue with Facebook
+          </Button>
+          <Button width="full" variant="outline">
+            <FcGoogle /> Continue with Google
+          </Button>
+          <HStack width="full">
+            <Separator flex="1" />
+            <Text fontSize="sm" color='gray.500'>or</Text>
+            <Separator flex="1" />
+          </HStack>
           <Input {...register('firstName')} placeholder="First Name (optional)" />
           <Input {...register('lastName')} placeholder="Last Name (optional)" />
           {/* <Input {...register('age', { valueAsNumber: true, setValueAs: (v) => (v === '' ? undefined : Number(v)) })} 
@@ -97,14 +114,25 @@ const SignupPage = () => {
           <Button
             type="submit"
             variant="outline"
+            border="1px solid green"
+            width="full"
             loading={isSubmitting || signup.isPending}
             disabled={!isValid}
           >
             Sign Up
           </Button>
+          <HStack marginTop={5} display='flex' justifyContent='space-between'>
+            <Text fontSize='sm'>Already have an account?</Text>
+            <ChakraLink fontSize="sm" outline='none' textDecoration="underline" asChild color="green.600">
+              <RouterLink to={'/login'}> Sign in</RouterLink>
+            </ChakraLink>
+          </HStack>
         </VStack>
       </Box>
-    </Box>
+      </Flex>
+      <Box flex={{ base: "1", lg: "1.2"}} display={{ base: 'none', lg: 'block' }} 
+           bgImage={`url(${signupImage})`} bgSize='cover' bgPos='left center' bgRepeat='no-repeat' />
+    </Flex>
   );
 };
 

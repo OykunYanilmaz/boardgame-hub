@@ -5,7 +5,9 @@ import { Outlet } from "react-router-dom";
 const Layout = () => {
   return (
     <>
-        <NavBar />
+        <Box borderBottom='1px solid' borderColor='gray.800'>
+          <NavBar />
+        </Box>
         <Box padding={5}>
           <Outlet />
         </Box>
