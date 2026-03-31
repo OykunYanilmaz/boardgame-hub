@@ -148,7 +148,7 @@ import camelcaseKeys from 'camelcase-keys';
 import decamelizeKeys from 'decamelize-keys';
 
 axiosInstance.interceptors.request.use((config) => {
-  if (config.data) {
+  if (config.data && !(config.data instanceof FormData)) {
     config.data = decamelizeKeys(config.data, { deep: true });
   }
 

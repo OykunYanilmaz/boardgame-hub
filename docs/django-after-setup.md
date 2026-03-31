@@ -156,3 +156,19 @@ SIMPLE_JWT = {
 
 path('auth/', include('djoser.urls.jwt')),
 ```
+
+### 8- ImageField - Pillow
+```py
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = BASE_DIR / 'media'
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+avatar = models.ImageField(upload_to='accounts/avatars/', blank=True, null=True, validators=[validate_file_size])
+```
+
+```sh
+pipenv install pillow
+```

@@ -5,6 +5,7 @@ import GameDetailPage from "./pages/GameDetailPage";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
             { index: true, element: <HomePage /> },
             { path: 'login', element: <LoginPage /> },
             { path: 'signup', element: <SignupPage /> },
+            { path: 'profile', element: <ProfilePage /> },
             { path: 'games/:slug', element: <GameDetailPage /> }
         ]
     }
