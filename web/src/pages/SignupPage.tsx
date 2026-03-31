@@ -1,4 +1,5 @@
 import { Box, Button, Input, VStack, Text } from '@chakra-ui/react';
+import { PasswordInput } from "@/components/ui/password-input"
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,7 +20,7 @@ const signupSchema = z
     error: 'Passwords do not match.',
     path: ['rePassword'],
   })
-  .refine((data) => data.password.toLowerCase() !== data.username.toLowerCase(), {
+  .refine(data => data.password.toLowerCase() !== data.username.toLowerCase(), {
     error: 'Password cannot be the same as username.',
     path: ['password'],
   });
@@ -41,7 +42,7 @@ const SignupPage = () => {
     defaultValues: {
       firstName: '',
       lastName: '',
-    //   age: '',
+      //   age: '',
       username: '',
       email: '',
       password: '',
@@ -51,11 +52,11 @@ const SignupPage = () => {
 
   const onSubmit = async (data: SignupFormData) => {
     try {
-        await signup.mutateAsync(data);
-        reset();
-        navigate('/login');
+      await signup.mutateAsync(data);
+      reset();
+      navigate('/login');
     } catch {
-        // toaster
+      // toaster error message
     }
   };
 
@@ -63,21 +64,42 @@ const SignupPage = () => {
     <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={5}>
       <Box as="form" onSubmit={handleSubmit(onSubmit)} width="full" maxWidth="360px">
         <VStack gap={3}>
-          <Input {...register('firstName')} placeholder='First Name (optional)' />
-          <Input {...register('lastName')} placeholder='Last Name (optional)' />
+          <Input {...register('firstName')} placeholder="First Name (optional)" />
+          <Input {...register('lastName')} placeholder="Last Name (optional)" />
           {/* <Input {...register('age', { valueAsNumber: true, setValueAs: (v) => (v === '' ? undefined : Number(v)) })} 
                  type='number' min={10} max={100} placeholder='Age' /> */}
 
-          <Input {...register('username')} placeholder='Username *' />
-          {errors.username && <Text color='red.600' fontSize='sm'>{errors.username.message}</Text>}
-          <Input {...register('email')} placeholder='Email *' />
-          {errors.email && <Text color='red.600' fontSize='sm'>{errors.email.message}</Text>}
-          <Input type="password" placeholder="Password *" {...register('password')} />
-          {errors.password && <Text color='red.600' fontSize='sm'>{errors.password.message}</Text>}
-          <Input type="password" placeholder="Confirm Password *" {...register('rePassword')} />
-          {errors.rePassword && <Text color='red.600' fontSize='sm'>{errors.rePassword.message}</Text>}
+          <Input {...register('username')} placeholder="Username *" />
+          {errors.username && (
+            <Text color="red.600" fontSize="sm">
+              {errors.username.message}
+            </Text>
+          )}
+          <Input {...register('email')} placeholder="Email *" />
+          {errors.email && (
+            <Text color="red.600" fontSize="sm">
+              {errors.email.message}
+            </Text>
+          )}
+          <PasswordInput type="password" placeholder="Password *" {...register('password')} />
+          {errors.password && (
+            <Text color="red.600" fontSize="sm">
+              {errors.password.message}
+            </Text>
+          )}
+          <PasswordInput type="password" placeholder="Confirm Password *" {...register('rePassword')} />
+          {errors.rePassword && (
+            <Text color="red.600" fontSize="sm">
+              {errors.rePassword.message}
+            </Text>
+          )}
 
-          <Button type="submit" variant="outline" loading={isSubmitting || signup.isPending} disabled={!isValid}>
+          <Button
+            type="submit"
+            variant="outline"
+            loading={isSubmitting || signup.isPending}
+            disabled={!isValid}
+          >
             Sign Up
           </Button>
         </VStack>

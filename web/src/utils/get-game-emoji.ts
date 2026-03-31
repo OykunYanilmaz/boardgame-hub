@@ -2,7 +2,7 @@ import oldEmoji from '../assets/oldEmoji.svg';
 import hotEmoji from '../assets/hotEmoji.svg';
 import newEmoji from '../assets/newEmoji.svg';
 
-const getEmoji = (year: number) => {
+const getGameEmoji = (year: number) => {
   const currentYear = new Date().getFullYear();
 
   if (year >= currentYear - 1) return newEmoji;
@@ -11,4 +11,4 @@ const getEmoji = (year: number) => {
   return oldEmoji;
 };
 
-export default getEmoji;
+export default getGameEmoji;

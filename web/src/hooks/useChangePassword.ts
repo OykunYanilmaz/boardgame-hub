@@ -1,5 +1,6 @@
 import { toaster } from '@/components/ui/toaster';
 import AuthClient from '@/services/auth-client';
+import getErrorMessage from '@/utils/get-error-message';
 import { useMutation } from '@tanstack/react-query';
 
 const authClient = new AuthClient();
@@ -15,10 +16,10 @@ const useChangePassword = () => {
         closable: true,
       });
     },
-    onError: () => {
+    onError: (error) => {
       toaster.create({
         title: 'Password update failed',
-        description: 'Please check your current password.',
+        description: getErrorMessage(error),
         type: 'error',
         duration: 3000,
         closable: true

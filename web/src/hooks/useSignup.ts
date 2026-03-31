@@ -1,6 +1,7 @@
 import AuthClient from "@/services/auth-client";
 import { useMutation } from "@tanstack/react-query";
 import { toaster } from "@/components/ui/toaster";
+import getErrorMessage from "@/utils/get-error-message";
 
 const authClient = new AuthClient();
 
@@ -17,10 +18,10 @@ const useSignup = () => {
             closable: true
         });
     },
-    onError: () => {
+    onError: (error) => {
         toaster.create({
             title: 'Signup failed',
-            description: 'Please check your inputs.',
+            description: getErrorMessage(error),
             type: 'error',
             duration: 3000,
             closable: true

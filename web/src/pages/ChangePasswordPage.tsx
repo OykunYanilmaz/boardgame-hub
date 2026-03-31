@@ -1,10 +1,12 @@
-import { Box, Button, Input, VStack, Text, Progress } from '@chakra-ui/react';
+import { Box, Button, VStack, Text, Progress } from '@chakra-ui/react';
+import { PasswordInput } from "@/components/ui/password-input"
 import { useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useChangePassword from '@/hooks/useChangePassword';
 import { useNavigate } from 'react-router-dom';
 import zxcvbn from 'zxcvbn';
+import getErrorMessage from '@/utils/get-error-message';
 
 const changePasswordSchema = z
   .object({
@@ -31,6 +33,7 @@ const ChangePasswordPage = () => {
     register,
     control,
     handleSubmit,
+    setError,
     formState: { errors, isValid },
   } = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
@@ -52,12 +55,14 @@ const ChangePasswordPage = () => {
       await changePassword.mutateAsync({
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
-        // no need to send confirmNewPassword
+        // NOTE: No need to send confirmNewPassword, and because of that we use one by one instead of data as parameter.
       });
   
       navigate('/');
-    } catch {
-      // hook toaster
+    } catch (error) {
+      setError('currentPassword', {
+        message: getErrorMessage(error),
+      })
     }
   }
 
@@ -65,9 +70,9 @@ const ChangePasswordPage = () => {
     <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={5}>
       <Box as="form" onSubmit={handleSubmit(onSubmit)} width="full" maxWidth="360px">
         <VStack gap={3}>
-          <Input {...register('currentPassword')} type="password" placeholder="Current Password" />
+          <PasswordInput {...register('currentPassword')} type="password" placeholder="Current Password" />
           {errors.currentPassword && <Text color='red.600' fontSize='sm'>{errors.currentPassword.message}</Text>}
-          <Input {...register('newPassword')} type="password" placeholder="New Password" />
+          <PasswordInput {...register('newPassword')} type="password" placeholder="New Password" />
           {errors.newPassword && <Text color='red.600' fontSize='sm'>{errors.newPassword.message}</Text>}
           {password && (
             <Progress.Root value={value} max={100} width='100%' colorPalette='gray'>
@@ -80,7 +85,7 @@ const ChangePasswordPage = () => {
               </Progress.ValueText>
             </Progress.Root>
           )}
-          <Input {...register('confirmNewPassword')} type="password" placeholder="Confirm New Password" />
+          <PasswordInput {...register('confirmNewPassword')} type="password" placeholder="Confirm New Password" />
           {errors.confirmNewPassword && <Text color='red.600' fontSize='sm'>{errors.confirmNewPassword.message}</Text>}
           
           <Button type="submit" variant="outline" loading={changePassword.isPending} disabled={!isValid}>

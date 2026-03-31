@@ -1,5 +1,6 @@
 import useLogin from '@/hooks/useLogin';
 import { Box, Button, Input, VStack, Text } from '@chakra-ui/react';
+import { PasswordInput } from "@/components/ui/password-input"
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -36,7 +37,7 @@ const LoginPage = () => {
       reset();
       navigate('/');
     } catch {
-      // toaster
+      // toaster error message
     }
   };
 
@@ -46,7 +47,7 @@ const LoginPage = () => {
         <VStack gap={3}>
           <Input {...register('username')} placeholder="Username" />
           {errors.username && <Text color='red.600' fontSize='sm'>{errors.username.message}</Text>}
-          <Input {...register('password')} type="password" placeholder="Password" />
+          <PasswordInput {...register('password')} type="password" placeholder="Password" />
           {errors.password && <Text color='red.600' fontSize='sm'>{errors.password.message}</Text>}
 
           <Button type="submit" variant={'outline'} loading={login.isPending} disabled={!isValid}>
