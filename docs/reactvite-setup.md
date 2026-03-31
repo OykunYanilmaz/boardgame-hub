@@ -187,3 +187,9 @@ npm i -D @types/node
 ```sh
 npm i react-router-dom
 ```
+
+### 12- Install password strength meter
+```sh
+npm install zxcvbn
+npm i -D @types/zxcvbn
+```

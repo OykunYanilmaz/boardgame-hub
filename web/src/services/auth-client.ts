@@ -54,6 +54,11 @@ type SignupRequest = {
   rePassword: string;
 };
 
+type ChangePasswordRequest = {
+  currentPassword: string;
+  newPassword: string;
+}
+
 class AuthClient {
   login = async (data: LoginRequest): Promise<JwtResponse> => {
     const response = await axiosInstance
@@ -107,6 +112,14 @@ class AuthClient {
     const response = await axiosInstance.post<UserResponse>('/users/', data);
     return response.data;
   };
+
+  changePassword = async (data: ChangePasswordRequest): Promise<void> => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+
+    await axiosInstance.post('/users/set_password/', data, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+  }
 }
 
 export default AuthClient;

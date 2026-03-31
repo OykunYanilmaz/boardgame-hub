@@ -18,6 +18,7 @@ import useUpdateProfile from "@/hooks/useUpdateProfile";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from "react-router-dom";
 
 const editProfileSchema = z.object({
     firstName: z.string().trim().min(1, { error: 'First name cannot be empty.' }),
@@ -34,6 +35,7 @@ const ProfilePage = () => {
   const [ isEditing, setIsEditing ] = useState(false);
   const [ previewUrl, setPreviewUrl ] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   
   const { 
     register, handleSubmit, 
@@ -159,7 +161,7 @@ const ProfilePage = () => {
               {isEditing && <Button flex={1} border='1px solid green' marginTop={5} variant={'outline'} 
                                     loading={updateProfile.isPending} onClick={handleSubmit(handleSave)} disabled={!isValid}>Save</Button>}
             </HStack>
-            <Button width={'100%'} variant={'outline'}>Change Password</Button>
+            <Button width={'100%'} variant={'outline'} onClick={() => navigate('/change-password')}>Change Password</Button>
           </VStack>
         </GridItem>
       </Grid>

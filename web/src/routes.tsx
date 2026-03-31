@@ -6,6 +6,7 @@ import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
             { path: 'login', element: <LoginPage /> },
             { path: 'signup', element: <SignupPage /> },
             { path: 'profile', element: <ProfilePage /> },
+            { path: 'change-password', element: <ChangePasswordPage /> },
             { path: 'games/:slug', element: <GameDetailPage /> }
         ]
     }
