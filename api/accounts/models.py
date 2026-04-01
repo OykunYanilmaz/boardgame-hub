@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .validators import validate_file_size
 
+
 def user_avatar_upload_path(instance, filename):
     ext = os.path.splitext(filename)[1].lower() or ".jpg"
     tr_now = timezone.now().astimezone(ZoneInfo("Europe/Istanbul"))
@@ -12,9 +13,15 @@ def user_avatar_upload_path(instance, filename):
     path = f"accounts/avatars/user-{instance.id}-avatar-{timestamp}{ext}"
     return path
 
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    avatar = models.ImageField(upload_to=user_avatar_upload_path, blank=True, null=True, validators=[validate_file_size])
+    avatar = models.ImageField(
+        upload_to=user_avatar_upload_path,
+        blank=True,
+        null=True,
+        validators=[validate_file_size],
+    )
 
     def save(self, *args, **kwargs):
         old_avatar_name = None
@@ -26,10 +33,27 @@ class User(AbstractUser):
                     old_avatar_name = old_user.avatar.name
             except User.DoesNotExist:
                 pass
-        
+
         super().save(*args, **kwargs)
 
         if old_avatar_name and self.avatar and old_avatar_name != self.avatar.name:
             storage = self.avatar.storage
             if storage.exists(old_avatar_name):
                 storage.delete(old_avatar_name)
+
+
+class EmailOTP(models.Model):
+    PURPOSE_CHOICES = [
+        ("signup", "Signup"),
+        ("password_reset", "Password Reset"),
+        ("login", "Login"),
+    ]
+
+    email = models.EmailField()
+    code = models.CharField(max_length=6)
+    purpose = models.CharField(max_length=20, choices=PURPOSE_CHOICES)
+    is_used = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.email} - {self.purpose} - {self.code}"

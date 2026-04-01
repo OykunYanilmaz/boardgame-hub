@@ -167,15 +167,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_ROOT = BASE_DIR / 'media'
 
-# Cache
-
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "boardgame-hub-cache",
-    }
-}
-
 # REST Framework
 
 REST_FRAMEWORK = {
@@ -187,6 +178,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+# Auth - User
+
+AUTH_USER_MODEL = 'accounts.User'
 
 # Securing APIs
 
@@ -207,6 +202,25 @@ DJOSER = {
     # ],
 }
 
-# Auth - User
+# Email
 
-AUTH_USER_MODEL = 'accounts.User'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp4dev" # 'localhost' - 'host.docker.internal'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'noreply@bghub.com'
+
+ADMINS = [
+    ('Oykun', 'admin@bghub.com')
+]
+
+# Cache
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "boardgame-hub-cache",
+    }
+}

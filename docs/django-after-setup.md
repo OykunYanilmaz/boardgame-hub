@@ -172,3 +172,33 @@ avatar = models.ImageField(upload_to='accounts/avatars/', blank=True, null=True,
 ```sh
 pipenv install pillow
 ```
+
+### 9- Fake Smtp - Simple Mail Transfer Protocol
+```sh
+docker run --rm -it -p 3000:80 -p 2525:25 rnwood/smtp4dev
+```
+Even beter: Add a service to the compose.yml
+```yml
+  smtp4dev:
+    image: rnwood/smtp4dev
+    container_name: bghub-smtp4dev
+    ports:
+        - "3000:80"
+        - "2525:25"
+```
+
+```py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+# EMAIL_HOST = "host.docker.internal"
+EMAIL_HOST = "smtp4dev"
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'noreply@bghub.com'
+
+ADMINS = [
+    ('Oykun', 'admin@bghub.com')
+]
+```

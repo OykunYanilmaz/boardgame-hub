@@ -59,7 +59,7 @@ const LoginPage = () => {
     <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={20}>
       <Box as="form" onSubmit={handleSubmit(onSubmit)} width="full" maxWidth={{ base: "260px", md: "360px"}}>
         <VStack gap={3}>
-          <Image src={logo} boxSize={{ base: "36px", sm: "44px", md: "52px", lg: "60px" }} objectFit={'cover'}/>
+          <RouterLink to={'/'}><Image src={logo} boxSize={{ base: "36px", sm: "44px", md: "52px", lg: "60px" }} objectFit={'cover'}/></RouterLink>
           <Heading marginBottom={5}>Sign in to BG-Hub</Heading>
           <Input {...register('username')} placeholder="Username" />
           {errors.username && (

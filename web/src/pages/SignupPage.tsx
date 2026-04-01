@@ -130,8 +130,17 @@ const SignupPage = () => {
         </VStack>
       </Box>
       </Flex>
-      <Box flex={{ base: "1", lg: "1.2"}} display={{ base: 'none', lg: 'block' }} 
-           bgImage={`url(${signupImage})`} bgSize='cover' bgPos='left center' bgRepeat='no-repeat' />
+      <Box flex={{ base: "1", lg: "1.2"}} display={{ base: 'none', lg: 'block' }} position='relative'
+           bgImage={`url(${signupImage})`} bgSize='cover' bgPos='left center' bgRepeat='no-repeat'>
+        <Box position='absolute' top='50px' left="125px" color='white' maxW="500px">
+          <Text fontFamily='fangsong' fontSize='2xl' fontWeight='bold' fontStyle='italic' lineHeight='1.2'
+                textShadow="0 0 8px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.3)">Discover your next favorite game !</Text>
+        </Box>
+        <Box position='absolute' top='125px' left="400px" color='white' maxW="500px">
+          <Text fontFamily='fangsong' fontSize='2xl' fontWeight='bold' fontStyle='italic' lineHeight='1.2'
+                textShadow="0 0 8px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.3)">Play. Track. Share.</Text>
+        </Box>
+      </Box>
     </Flex>
   );
 };

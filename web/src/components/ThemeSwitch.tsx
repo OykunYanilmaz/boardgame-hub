@@ -2,7 +2,7 @@ import { ColorModeButton } from "./ui/color-mode"
 
 const ThemeSwitch = () => {
   return (
-    <ColorModeButton />
+    <ColorModeButton display={{ base: 'none', md: 'block'}}/>
   )
 }
 

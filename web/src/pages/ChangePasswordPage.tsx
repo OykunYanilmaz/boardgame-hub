@@ -88,7 +88,7 @@ const ChangePasswordPage = () => {
           <PasswordInput {...register('confirmNewPassword')} type="password" placeholder="Confirm New Password" />
           {errors.confirmNewPassword && <Text color='red.600' fontSize='sm'>{errors.confirmNewPassword.message}</Text>}
           
-          <Button type="submit" variant="outline" loading={changePassword.isPending} disabled={!isValid}>
+          <Button type="submit" variant="outline" border='1px solid green' loading={changePassword.isPending} disabled={!isValid}>
             Change Password
           </Button>
         </VStack>

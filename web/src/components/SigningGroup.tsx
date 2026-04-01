@@ -15,14 +15,14 @@ const SigningGroup = () => {
     <HStack>
       {!isLoading && !user && (
         <Link to="/login">
-          <Button size="sm" variant="outline">
+          <Button size={{ base: "xs", md: "sm"}} variant="outline">
             Sign In
           </Button>
         </Link>
       )}
       {!isLoading && !user && (
         <Link to="/signup">
-          <Button size="sm" variant="outline">
+          <Button size={{ base: "xs", md: "sm"}} variant="outline">
             Sign Up
           </Button>
         </Link>
