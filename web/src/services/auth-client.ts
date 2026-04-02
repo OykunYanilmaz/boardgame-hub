@@ -57,8 +57,9 @@ type SignupRequest = {
 type ChangePasswordRequest = {
   currentPassword: string;
   newPassword: string;
-}
+};
 
+// REFACTOR: avoid mixing await and .then(), refactor all methods.
 class AuthClient {
   login = async (data: LoginRequest): Promise<JwtResponse> => {
     const response = await axiosInstance
@@ -108,11 +109,6 @@ class AuthClient {
     return response.data;
   };
 
-  signup = async (data: SignupRequest): Promise<UserResponse> => {
-    const response = await axiosInstance.post<UserResponse>('/users/', data);
-    return response.data;
-  };
-
   changePassword = async (data: ChangePasswordRequest): Promise<void> => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 
@@ -120,6 +116,12 @@ class AuthClient {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
   }
+
+  // /auth/users/
+  signup = async (data: SignupRequest): Promise<UserResponse> => {
+    const response = await axiosInstance.post<UserResponse>('/users/', data);
+    return response.data;
+  };
 }
 
 export default AuthClient;

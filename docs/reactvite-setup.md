@@ -193,3 +193,7 @@ npm i react-router-dom
 npm install zxcvbn
 npm i -D @types/zxcvbn
 ```
+or
+```sh
+npm i check-password-strength
+```

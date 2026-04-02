@@ -1,13 +1,16 @@
-import { Box, Button, Input, VStack, Text, Flex, HStack, Link as ChakraLink, Heading, Separator } from '@chakra-ui/react';
-import { PasswordInput } from "@/components/ui/password-input"
-import { useForm } from 'react-hook-form';
+import { Box, Button, Input, VStack, Text, Flex, HStack, Link as ChakraLink, Heading, Separator, PinInput, Field, Stack } from '@chakra-ui/react';
+import { PasswordInput, PasswordStrengthMeter } from "@/components/ui/password-input"
+import { passwordStrength, type Options } from 'check-password-strength'
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useSignup from '@/hooks/useSignup';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import signupImage from '../assets/signup-image.webp';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import { useState } from 'react';
+import useSignupWithCode from '@/hooks/useSignupWithCode';
+import useLogin from '@/hooks/useLogin';
 
 const signupSchema = z
   .object({
@@ -18,6 +21,7 @@ const signupSchema = z
     email: z.string().pipe(z.email({ error: 'Enter a valid email address.' })),
     password: z.string().min(8, { error: 'Password must be at least 8 characters.' }),
     rePassword: z.string().min(1, { error: 'Please confirm your password.' }),
+    code: z.string().length(6, { error: 'Verification code must be 6 digits.' })
   })
   .refine(data => data.password === data.rePassword, {
     error: 'Passwords do not match.',
@@ -30,14 +34,30 @@ const signupSchema = z
 
 type SignupFormData = z.infer<typeof signupSchema>;
 
+const strengthOptions: Options<string> = [
+  { id: 1, value: 'weak', minDiversity: 0, minLength: 0 },
+  { id: 2, value: 'medium', minDiversity: 2, minLength: 6 },
+  { id: 3, value: 'strong', minDiversity: 3, minLength: 8 },
+  { id: 4, value: 'very-strong', minDiversity: 4, minLength: 10 },
+]
+
 const SignupPage = () => {
-  const signup = useSignup();
+  // const signup = useSignup();
   const navigate = useNavigate();
+
+  const login = useLogin();
+  const { sendCode, verifyCode, isSendingCode, isVerifyingCode } = useSignupWithCode();
+  
+  const [ showPinCodeInput, setShowPinCodeInput ] = useState(false);
+
+  const [ resendCooldown, setResendCooldown ] = useState(0);
 
   const {
     register,
     handleSubmit,
     reset,
+    control,
+    getValues,
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
@@ -50,18 +70,113 @@ const SignupPage = () => {
       email: '',
       password: '',
       rePassword: '',
+      code: '',
     },
   });
 
+  const password = useWatch({
+    control,
+    name: 'password',
+    defaultValue: '',
+  });
+
+  const strength = password ? passwordStrength(password, strengthOptions).id : 0;
+
+  // const username = useWatch({
+  //   control,
+  //   name: 'username',
+  //   defaultValue: '',
+  // });
+
+  // useEffect(() => {
+  //   if (!password) return;
+
+  //   trigger('password');
+  // }, [username, password, trigger]);
+
+  const startResendCooldown = (seconds: number) => {
+    setResendCooldown(seconds);
+
+    const interval = setInterval(() => {
+      setResendCooldown(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;      
+        }
+
+        return prev - 1;
+      })
+    }, 1000);
+  };
+
+  const handleResendCode = async () => {
+    if (resendCooldown > 0) return;
+
+    try {
+      await sendCode({
+        email: getValues('email'),
+      });
+
+      startResendCooldown(60);
+    } catch {
+      // toaster hook içinde
+    }
+  }
+
+  // create user with djoser: auth/users/ 
+  // const onSubmit = async (data: SignupFormData) => {
+  //   try {
+  //     await signup.mutateAsync(data);
+  //     reset();
+  //     navigate('/login');
+  //   } catch {
+  //     // toaster error message
+  //   }
+  // };
   const onSubmit = async (data: SignupFormData) => {
     try {
-      await signup.mutateAsync(data);
+      await verifyCode({
+        firstName: data.firstName || '',
+        lastName: data.lastName || '',
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        rePassword: data.rePassword,
+        code: data.code,
+      });
+
+      await login.mutateAsync({
+        username: data.username,
+        password: data.password,
+      });
+      
       reset();
-      navigate('/login');
+      setShowPinCodeInput(false);
+      setResendCooldown(0);
+      navigate('/');
     } catch {
       // toaster error message
     }
   };
+  
+  const handleSignupClick = async () => {
+    if (!showPinCodeInput) {
+      try {
+        await sendCode({
+          email: getValues('email'),
+        });
+
+        setShowPinCodeInput(true);
+        startResendCooldown(60);
+        return;
+      } catch {
+        // toaster hook içinde
+        return;
+      }
+    }
+
+    handleSubmit(onSubmit)();
+  }
 
   return (
     // <Box display={'flex'} alignItems={'center'} justifyContent={'center'} marginTop={5}>
@@ -98,12 +213,17 @@ const SignupPage = () => {
               {errors.email.message}
             </Text>
           )}
-          <PasswordInput type="password" placeholder="Password *" {...register('password')} />
-          {errors.password && (
-            <Text color="red.600" fontSize="sm">
-              {errors.password.message}
-            </Text>
-          )}
+
+          <Stack width={'full'} gap={3}>
+            <PasswordInput type="password" placeholder="Password *" {...register('password')} />
+            {errors.password && (
+              <Text color="red.600" fontSize="sm">
+                {errors.password.message}
+              </Text>
+            )} 
+            <PasswordStrengthMeter value={strength}/>  
+          </Stack>
+
           <PasswordInput type="password" placeholder="Confirm Password *" {...register('rePassword')} />
           {errors.rePassword && (
             <Text color="red.600" fontSize="sm">
@@ -111,13 +231,53 @@ const SignupPage = () => {
             </Text>
           )}
 
+          {showPinCodeInput &&
+            <Box width='full' marginY={2}>
+              <Field.Root alignItems='center'>
+                <Field.Label fontSize='xs' color='gray.500'>
+                  Enter the 6-digit verification code sent to your email.
+                </Field.Label>
+
+                <Controller name='code' control={control} 
+                            render={({ field }) => (
+                              <PinInput.Root otp type='numeric' count={6} size='xl'
+                                             value={field.value ? field.value.split('') : []}
+                                             onValueChange={details => field.onChange(details.value.join(''))}
+                              >
+                                <PinInput.HiddenInput />
+                                <PinInput.Control>
+                                  <PinInput.Input index={0} />
+                                  <PinInput.Input index={1} />
+                                  <PinInput.Input index={2} />
+                                  <PinInput.Input index={3} />
+                                  <PinInput.Input index={4} />
+                                  <PinInput.Input index={5} />
+                                </PinInput.Control>
+                              </PinInput.Root>
+                            )}
+                />
+
+                {errors.code && <Text color="red.600" fontSize="sm" marginTop={2}>{errors.code.message}</Text>}
+                <Button type='button' variant='plain' size='xs' _hover={{ color: 'tomato' }}
+                        disabled={resendCooldown > 0 || isSendingCode} onClick={handleResendCode}>
+                  {isSendingCode
+                    ? 'Sending...'
+                    : resendCooldown > 0
+                      ? `Resend code in ${resendCooldown}s`
+                      : 'Resend Code'}
+                </Button>
+              </Field.Root>
+            </Box>
+          }
+
           <Button
-            type="submit"
+            type="button"
             variant="outline"
             border="1px solid green"
             width="full"
-            loading={isSubmitting || signup.isPending}
-            disabled={!isValid}
+            loading={isSubmitting || isSendingCode || isVerifyingCode || login.isPending}
+            disabled={showPinCodeInput ? !isValid : false}
+            onClick={handleSignupClick}
           >
             Sign Up
           </Button>

@@ -28,6 +28,7 @@ const loginSchema = z.object({
 type LoginData = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
+  // useDynamicDocumentTitle('Sign In')
   const login = useLogin();
   const navigate = useNavigate();
 
@@ -73,10 +74,12 @@ const LoginPage = () => {
               {errors.password.message}
             </Text>
           )}
-
+          {/* TODO: Forgot password functionality */}
+          <Text alignSelf='end' color='tomato' fontSize='xs' textDecoration='underline'>Forgot password?</Text>
+          {/* TODO: Login with email */}
           <Button
             type="submit"
-            border="1px solid green"
+            border="2px solid green"
             width="full"
             variant={'outline'}
             loading={login.isPending}
@@ -84,11 +87,14 @@ const LoginPage = () => {
           >
             Sign In
           </Button>
+
           <HStack width="full">
             <Separator flex="1" />
             <Text fontSize="sm" color='gray.500'>or</Text>
             <Separator flex="1" />
           </HStack>
+
+          {/* TODO: Social logins */}
           <Button width="full" variant="outline">
             <FaFacebookSquare size="20px" color="#1877F2" /> Continue with Facebook
           </Button>
